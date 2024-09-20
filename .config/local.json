@@ -1,0 +1,4 @@
+{
+  "port": 8080,
+  "jwt_secret": "very_very_secret_key"
+}

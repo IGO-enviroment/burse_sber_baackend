@@ -1,0 +1,15 @@
+post:
+  description: Login
+  operationId: Login
+  tags:
+    - Auth
+  requestBody:
+    content:
+      application/json:
+        schema:
+          $ref: '../../schemas/auth/login.yaml'
+  responses:
+    '200':
+      description: Logged
+    '400':
+      description: Bad request

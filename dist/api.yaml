@@ -1,0 +1,57 @@
+openapi: 3.0.3
+info:
+  version: 1.0.0
+  title: Boilerplate
+  description: Multi-file boilerplate for OpenAPI Specification.
+servers:
+  - url: 'http://localhost:8080/v1'
+    description: Локальный сервер
+paths:
+  /auth/login:
+    post:
+      description: Login
+      operationId: Login
+      tags:
+        - Auth
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/login'
+      responses:
+        '200':
+          description: Logged
+        '400':
+          description: Bad request
+components:
+  securitySchemes:
+    authorization:
+      type: apiKey
+      in: header
+      name: Authorization
+    origin:
+      type: apiKey
+      in: header
+      name: Origin
+  parameters:
+    id:
+      name: id
+      in: path
+      description: ID
+      required: true
+      schema:
+        type: integer
+        format: int
+  schemas:
+    login:
+      type: object
+      required:
+        - email
+        - password
+      properties:
+        email:
+          type: string
+          description: User email
+        password:
+          type: string
+          description: User password

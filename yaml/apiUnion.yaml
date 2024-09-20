@@ -1,0 +1,28 @@
+openapi: "3.0.3"
+info:
+  version: 1.0.0
+  title: Boilerplate
+  description: Multi-file boilerplate for OpenAPI Specification.
+servers:
+  - url: "http://localhost:8080/v1"
+    description: Локальный сервер
+
+paths:
+  # Auth
+  /auth/login:
+    $ref: "./paths/auth/login.yaml"
+
+components:
+  securitySchemes:
+    authorization:
+      type: apiKey
+      in: header
+      name: Authorization
+    origin:
+      type: apiKey
+      in: header
+      name: Origin
+  parameters:
+    $ref: "./parameters/_index.yaml"
+  schemas:
+    $ref: "./schemas/_index.yaml"
