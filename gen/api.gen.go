@@ -6,7 +6,6 @@ package gen
 import (
 	"bytes"
 	"compress/gzip"
-	"context"
 	"encoding/base64"
 	"fmt"
 	"net/http"
@@ -16,10 +15,6 @@ import (
 
 	"github.com/getkin/kin-openapi/openapi3"
 	"github.com/gorilla/mux"
-)
-
-const (
-	OriginScopes = "origin.Scopes"
 )
 
 // AddStudent defines model for addStudent.
@@ -89,8 +84,6 @@ type MiddlewareFunc func(http.Handler) http.Handler
 // Login operation middleware
 func (siw *ServerInterfaceWrapper) Login(w http.ResponseWriter, r *http.Request) {
 	ctx := r.Context()
-
-	ctx = context.WithValue(ctx, OriginScopes, []string{"*"})
 
 	handler := http.Handler(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		siw.Handler.Login(w, r)
@@ -241,20 +234,20 @@ func HandlerWithOptions(si ServerInterface, options GorillaServerOptions) http.H
 // Base64 encoded, gzipped, json marshaled Swagger object
 var swaggerSpec = []string{
 
-	"H4sIAAAAAAAC/7RWzW7bRhB+FWLaU0GJcm0UBm9y24PQ1i7s+iTosOKOpHXJ3c3u0rYiEEjOyRvkJYIA",
-	"OSRB8gzUGwW7pPgjUrYPzkXQav6+me/bWW0gEokUHLnREG5AEkUSNKjciVH7SVFHiknDBIcQJn+AD8x+",
-	"k8SswAdOEoTQ+vqg8EXKFFIIjUrRBx2tMCE2yUKohBjrxw34YNYSiwMuUUGWZTtnV5hQemVSitw4UEpI",
-	"VIahs+nCUAA0mLgvPytcQAg/BXU7QZkvKAMgq8oSpcjanlPOblFpZtYT12oHVrOladvdr5HMqsxifoOR",
-	"KxUpJHZkl6jTuKcNpn+3HtisOxciRsJteJn7z4SwuOGhjWJ82QHW8vYbufuQxWJp+dsHhLtSbb6vNSoP",
-	"y8R7KHyQROs7oeiBuMrsP9LArkAV0AdcH5IEHpiSDwumtDl3Cu2xxuQBY8IojfGgWa4Ex/M0maN6nJ9d",
-	"ezWcRvFWqXbivikY8T/yS5SCa+yOgkQRav2f9emFjfeSKdQT3iN3H+4HSzGof/3tpNNJM38zWxepJQyj",
-	"VDGzvrI3scSXmpVQ7CUpZLIpVskKCXUAymUybnnV91ayv9BdXKFYKeLe+IvC3Am0oBhfiK5c/0ljwwYL",
-	"FqM3FyxGJWNi0FsI5V1I5ON/J96VxIgtWORADW1yZmKb/awOAB/chnA5j4aj4cihlciJZBDC8XA0PHY6",
-	"Nys3j8AOJKivpNCmC+5vUXRjiXbV7baqfrX0oDZngq5taCS4KW8JkTIu8QY3uph3vZIf2pkFoCwr6NdO",
-	"bA7vr6PRsxVpKdmV6rS9RGoHeFJUbZvPCPXK3ltqg3C6qQQyhV9glll1kqW2RystmFn/oF7nAaF00HxY",
-	"+nkYU+pxvPMqz31KxtW7pX8QMY2X8RnYedL7ufeSdZ7RLnG7GXiE0qcSaH2Ouj7nwnjXfLc1bLKs5vK6",
-	"ItAy6iSgbt1/l+l+nvxd/i3/nL/Pv2zf5l+3b/JP3vZ1/nH7Kv9gP8GHVMV2kxgjwyCIRUTildAmPB2d",
-	"joLbI8hm2fcAAAD//zNfcoUtCQAA",
+	"H4sIAAAAAAAC/7RWzW7TQBB+FWvh6MQprVDlWwocIqBFLT1VPWy8k2SLvbvsrtuGyhKc4Q14CYTEARA8",
+	"g/NGaNaOf2Kn7aFcItsz880338zO5oZEMlFSgLCGhDdEUU0TsKDdG2f4y8BEmivLpSAhmTwnPuH4pKhd",
+	"EJ8ImgAJ0dcnGt6nXAMjodUp+MREC0gogsykTqhFP2GJT+xSQfECc9Aky7K1s0tMGTuxKQNhHSktFWjL",
+	"wdlMYSgIWkjcw2MNMxKSR0FdTlDiBWUAyaq0VGu6xPdU8EvQhtvlxJXaodUs6azt7tdMzitkOb2AyKWK",
+	"NFCU7BhMGveUwc0z9IBm3qmUMVCB4SX2i4TyuOFhrOZi3iHW8vYb2H3MYjnH/m0SgnWqdr9PDWgPSuAN",
+	"Fj5R1JgrqdmWuMrs31HAOkEV0EfcbBsJ2KKST2ZcG3voJrTHGtNbjAlnLIatZrWQAg7TZAr67v6sy6vp",
+	"NJK3UrWB+1Sw8h2IY1BSGOhKQaMIjHmLPr204VpxDWYiesbdJ9eDuRzUX5/udSpp4jfRukyxYRClmtvl",
+	"CZ7Ekl9qF1LzD7QYk5tilSyAMkegXCbjlld9bhV/Ce7gSs3LIe6NPyrMnUAkxcVMdsf1dRpbPpjxGLyp",
+	"5DFoFVML3kxq70iBGL+ZeCcKIj7jkSM1RHBuY0Q/qAOIT9yGcJg7w9Fw5NgqEFRxEpLd4Wi46+bcLpwe",
+	"AQoS1EdSGtsl90oW1WCjXXbcVtVXbA8YeyDZEkMjKWx5SqhScck3uDCF3vVKvm1nFoSyrGi/ccPm+D4Z",
+	"jR4sSWuSXapO2XNgKOBekbVtPqDMK2t302bp3OCI4vCQc/wS1As7oIwNmldHv9JjxjwBV17luSn6uLqZ",
+	"zH+SvnH3PYD+97ohN+6qzkXZbc1aA48ydt8Woc9O1+dQWu9UrPcCgjV6eVo1EDvqVoq+dP9OzjZx8q/5",
+	"3/xX/i3/vfqS/1l9zn96q0/5j9XH/Dv+Ep+kOsZdYa0KgyCWEY0X0thwf7Q/Ci53SHae/QsAAP//9f5S",
+	"fw8JAAA=",
 }
 
 // GetSwagger returns the content of the embedded swagger specification file

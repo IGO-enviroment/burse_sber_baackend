@@ -9,9 +9,6 @@ servers:
 paths:
   /auth/login:
     post:
-      security:
-        - origin:
-            - '*'
       description: Login
       operationId: Login
       tags:
