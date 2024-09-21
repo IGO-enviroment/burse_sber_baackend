@@ -1,2 +1,4 @@
 login:
   $ref: './auth/login.yaml'
+tokenReponse:
+  $ref: './auth/tokenResponse.yaml'

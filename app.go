@@ -4,6 +4,8 @@ import (
 	"boilerplate/api"
 	"boilerplate/api/handlers"
 	"boilerplate/config"
+	"boilerplate/postgres"
+	"boilerplate/usecases/students"
 	"context"
 	"errors"
 	"log"
@@ -19,10 +21,17 @@ type Application struct {
 }
 
 func Create(settings config.Settings, logger *log.Logger) *Application {
+	pgDb, err := postgres.NewPostgresConnector(settings.PgConnString).Open()
+	if err != nil {
+		log.Fatal(err)
+	}
+
 	ctx, cancelFunc := context.WithCancel(context.Background())
+	studentService := students.NewStudentsService(pgDb, settings)
 	handler := handlers.New(
 		logger,
 		settings,
+		studentService,
 	)
 	server := api.NewServer(ctx, settings, handler)
 

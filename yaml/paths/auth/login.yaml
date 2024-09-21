@@ -11,5 +11,9 @@ post:
   responses:
     '200':
       description: Logged
+      content:
+        application/json:
+          schema:
+            $ref: '../../schemas/auth/tokenResponse.yaml'
     '400':
       description: Bad request

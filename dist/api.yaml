@@ -21,6 +21,10 @@ paths:
       responses:
         '200':
           description: Logged
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/tokenReponse'
         '400':
           description: Bad request
 components:
@@ -55,3 +59,14 @@ components:
         password:
           type: string
           description: User password
+    tokenReponse:
+      type: object
+      required:
+        - accessToken
+        - expiresIn
+      properties:
+        accessToken:
+          type: string
+        expiresIn:
+          type: integer
+          x-go-type: int64

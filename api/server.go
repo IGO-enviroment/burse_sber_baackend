@@ -1,6 +1,7 @@
 package api
 
 import (
+	"boilerplate/api/middleware"
 	"boilerplate/config"
 	"boilerplate/gen"
 	"context"
@@ -16,11 +17,12 @@ const (
 
 func NewServer(mainCtx context.Context, s config.Settings, si gen.ServerInterface) *http.Server {
 	r := mux.NewRouter()
+
 	r.PathPrefix(apiV1 + "/swaggerui").Handler(http.StripPrefix(apiV1+"/swaggerui", http.FileServer(http.Dir("./dist"))))
 	gen.HandlerWithOptions(si, gen.GorillaServerOptions{
 		BaseURL:          apiV1,
 		BaseRouter:       r,
-		Middlewares:      nil,
+		Middlewares:      []gen.MiddlewareFunc{middleware.GetCheckAuth(s.JwtSecret)},
 		ErrorHandlerFunc: nil,
 	})
 

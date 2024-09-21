@@ -1,13 +1,10 @@
 package handlers
 
 import (
-	"boilerplate/api/authentication/generation"
 	"boilerplate/gen"
-	"boilerplate/jwt"
 	"encoding/json"
 	"fmt"
 	"net/http"
-	"time"
 )
 
 func (s *Handler) Login(w http.ResponseWriter, r *http.Request) {
@@ -18,21 +15,22 @@ func (s *Handler) Login(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	// TODO Validate login model.
-
-	accessTokenClaims := generation.AccessTokenClaims{
-		UserId:              "user.UserId",
-		UserName:            "user.UserName",
-		Email:               "user.Email",
-		AccountId:           0,
-		IsEmployer:          false,
-		IsBackofficeManager: false,
-		IsStudent:           false,
-		CreationTimestamp:   time.Now().UTC().Unix(),
-		TTL:                 s.config.AccessTokenTTL,
+	tokenResponse, err := s.studentService.Authenticate(loginModel)
+	if err != nil {
+		s.logger.Println(fmt.Sprintf("%v", err.Error()))
+		w.WriteHeader(http.StatusBadRequest)
+		return
 	}
 
-	token := jwt.GetToken(accessTokenClaims, s.config.SecretKey)
+	b, err := json.Marshal(tokenResponse)
+	if err != nil {
+		s.logger.Println(fmt.Sprintf("%v", err.Error()))
+		w.WriteHeader(http.StatusBadRequest)
+		return
+	}
 
-	w.Write([]byte(token))
+	w.Header().Add(ContentTypeHeader, JsonContentType)
+	w.Write(b)
+
+	return
 }

@@ -26,6 +26,12 @@ type Login struct {
 	Password string `json:"password"`
 }
 
+// TokenReponse defines model for tokenReponse.
+type TokenReponse struct {
+	AccessToken string `json:"accessToken"`
+	ExpiresIn   int64  `json:"expiresIn"`
+}
+
 // Id defines model for id.
 type Id = int
 
@@ -184,15 +190,16 @@ func HandlerWithOptions(si ServerInterface, options GorillaServerOptions) http.H
 // Base64 encoded, gzipped, json marshaled Swagger object
 var swaggerSpec = []string{
 
-	"H4sIAAAAAAAC/3RTwW7UPBB+lWj+/xg2KeVQ5dYVlxWgIlWcqj24yWTjyrHNeLJoWUWCM7wBL4GQOACC",
-	"Z8i+EbK9TQpZLlbsmW/mm2++7KE0rTUaNTso9mAFiRYZKdxk5c8KXUnSsjQaClg9hRSk/7KCG0hBixah",
-	"8LkpEL7uJGEFBVOHKbiywVb4IrWhVrDP0wwp8M5ivOAGCfq+v08OjZXZ+BZ7sGQsEksMz9gKqeaUXjmk",
-	"JMbGyo5J6g30KVjh3BtD1T9wY3gG7R/OcwP3DUbAekSY2zssOSAclh1J3l37YSJr0XFjSL4Vse0+qteg",
-	"qJAm/S7/yBpLCyuf4c7PYUgeRTmJv4rhGdCTkro28/FfdIrlo1oqTG6NVEhWCcakNpRcWdSXL1fJtcVS",
-	"1rIMpBa+uGTlqy8nAKSwRXKx5tkiX+SBrUUtrIQCzhf54jzoxk3QI/OCZNOKjeM5uecmTuPXH7qvqgev",
-	"fi/oeGmqnYeWRjPqUEVYq458szsX9Z5c+D9hDQX8l02uz462OxLq+7h3Z412cX+P8/wkvw1WftInp8JL",
-	"USVHksEWLDbOm8hvGdbR7kjb8J/d/A0ePg2/hu/D5+HH4ePw8/Bh+JYc3g9fD++GL/6EFDpS3gLMtsgy",
-	"ZUqhGuO4uMgv8mx7Bv26/x0AAP//+lFOUtkDAAA=",
+	"H4sIAAAAAAAC/6xUzW7TQBB+FWvg6MQurVDlWyMuEaAiCqcqh609trfYu8vuODREluAMb8BLICQOgOAZ",
+	"nDdCs3b+MNy4WNmd+b75Zr7ZrCHVtdEKFTlI1mCEFTUSWn+SGX8zdKmVhqRWkMD8EYQg+ZcRVEIIStQI",
+	"CeeGYPF1Iy1mkJBtMASXllgLJsm1rQVxniIIgVYG+wMWaKFt222yL1zpgkuswVht0JJEf421kNVY0kuH",
+	"NuhjO2ZHVqoC2hCMcO6Nttk/cLvwCNoe9nMN2wI7wGKH0De3mBIXI/0K1XM0Wjkc6xdpis694Bw+jqTi",
+	"nZEW3fwwuh1RCHeTQk/2tw/PRhIP+Q/Zxkp53Jg2VtLqisc+6Guo1Fa+Ff2A1r3PJYrMCxicvjjK2lEL",
+	"Ix/jitvQVg72/RV/2YdHQBYlVa7HRj1tKpKTXFYY3GhZoTWVIAxybYNLg+ri2Ty4MpjKXKZe1JTJJVXM",
+	"PtsDIIQlWtdznkzjaezVGlTCSEjgdBpPT73DVPp5RDyQaL+M2tFY3BPdd8NG++rz7OCW7UFHM52tGJpq",
+	"Rag8izCmGvRGt66f9/693LeYQwL3ov37jIYHMghq295+55fN630Qx/+tyNEm+1KjtgvMeIBnfdXj8Exk",
+	"wdC73zYSheMV5eWBRf/e0S79H831n+DuU/er+9597n5sPnY/Nx+6b8Hmffd18677wl8IobEVbxaRSaKo",
+	"0qmoSu0oOY/P42h5Au2i/R0AAP//8/C8Y9oEAAA=",
 }
 
 // GetSwagger returns the content of the embedded swagger specification file
