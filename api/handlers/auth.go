@@ -1,11 +1,13 @@
 package handlers
 
 import (
+	"boilerplate/api/authentication/generation"
 	"boilerplate/gen"
+	"boilerplate/jwt"
 	"encoding/json"
 	"fmt"
-	"github.com/golang-jwt/jwt"
 	"net/http"
+	"time"
 )
 
 func (s *Handler) Login(w http.ResponseWriter, r *http.Request) {
@@ -18,14 +20,19 @@ func (s *Handler) Login(w http.ResponseWriter, r *http.Request) {
 
 	// TODO Validate login model.
 
-	claims := jwt.StandardClaims{}
-	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
-	signedToken, err := token.SignedString([]byte(s.config.SecretKey))
-	if err != nil {
-		s.logger.Println(fmt.Sprintf("%v", err.Error()))
-		w.WriteHeader(http.StatusBadRequest)
-		return
+	accessTokenClaims := generation.AccessTokenClaims{
+		UserId:              "user.UserId",
+		UserName:            "user.UserName",
+		Email:               "user.Email",
+		AccountId:           0,
+		IsEmployer:          false,
+		IsBackofficeManager: false,
+		IsStudent:           false,
+		CreationTimestamp:   time.Now().UTC().Unix(),
+		TTL:                 s.config.AccessTokenTTL,
 	}
 
-	w.Write([]byte(signedToken))
+	token := jwt.GetToken(accessTokenClaims, s.config.SecretKey)
+
+	w.Write([]byte(token))
 }
