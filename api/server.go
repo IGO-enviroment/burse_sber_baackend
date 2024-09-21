@@ -22,7 +22,7 @@ func NewServer(mainCtx context.Context, s config.Settings, si gen.ServerInterfac
 			// Set CORS headers
 			w.Header().Set("Access-Control-Allow-Origin", "*")
 			w.Header().Set("Access-Control-Allow-Methods", "GET, POST, OPTIONS")
-			w.Header().Set("Access-Control-Allow-Headers", "Accept, Content-Type, Content-Length, Accept-Encoding, Authorization")
+			w.Header().Set("Access-Control-Allow-Headers", "*")
 
 			// Continue with the request
 			next.ServeHTTP(w, r)
