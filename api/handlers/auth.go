@@ -30,6 +30,8 @@ func (s *Handler) Login(w http.ResponseWriter, r *http.Request) {
 	}
 
 	w.Header().Add(ContentTypeHeader, JsonContentType)
+	w.Header().Set("Access-Control-Allow-Origin", "*")
+	w.Header().Set("Access-Control-Allow-Headers", "Content-Type")
 	w.Write(b)
 
 	return
