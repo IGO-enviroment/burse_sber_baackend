@@ -17,6 +17,17 @@ const (
 
 func NewServer(mainCtx context.Context, s config.Settings, si gen.ServerInterface) *http.Server {
 	r := mux.NewRouter()
+	r.Use(func(next http.Handler) http.Handler {
+		return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+			// Set CORS headers
+			w.Header().Set("Access-Control-Allow-Origin", "*")
+			w.Header().Set("Access-Control-Allow-Methods", "GET, POST, OPTIONS")
+			w.Header().Set("Access-Control-Allow-Headers", "Accept, Content-Type, Content-Length, Accept-Encoding, Authorization")
+
+			// Continue with the request
+			next.ServeHTTP(w, r)
+		})
+	})
 
 	r.PathPrefix(apiV1 + "/swaggerui").Handler(http.StripPrefix(apiV1+"/swaggerui", http.FileServer(http.Dir("./dist"))))
 	gen.HandlerWithOptions(si, gen.GorillaServerOptions{
