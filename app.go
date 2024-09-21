@@ -9,7 +9,6 @@ import (
 	"boilerplate/usecases/universities"
 	"context"
 	"errors"
-	mx "github.com/gorilla/handlers"
 	"log"
 	"net/http"
 	"time"
@@ -48,7 +47,7 @@ func Create(settings config.Settings, logger *log.Logger) *Application {
 
 func (a *Application) Run() {
 	go func() {
-		if err := http.ListenAndServe(":8080", mx.CORS()(a.Server.Handler)); err != nil && !errors.Is(err, http.ErrServerClosed) {
+		if err := a.Server.ListenAndServe(); err != nil && !errors.Is(err, http.ErrServerClosed) {
 			a.Logger.Fatalf("listen http server err:  %v", err)
 		}
 	}()
