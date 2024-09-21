@@ -21,7 +21,7 @@ func GetCheckAuth(secretJWT string) gen.MiddlewareFunc {
 			authScopes, ok := r.Context().Value("authorization.Scopes").([]string)
 			if !ok {
 				log.Println("can't convert authorizationScopes to []string")
-				w.WriteHeader(http.StatusUnauthorized)
+				next.ServeHTTP(w, r)
 				return
 			}
 
@@ -53,10 +53,6 @@ func validToken(secretJWT, tokenString string) bool {
 	}
 
 	if claims.CreationTimestamp+claims.TTL < time.Now().UTC().Unix() {
-		return false
-	}
-
-	if claims.IsOrganization {
 		return false
 	}
 

@@ -5,14 +5,14 @@ post:
     - Auth
   requestBody:
     content:
-      application/json:
+      '*/*':
         schema:
           $ref: '../../schemas/auth/login.yaml'
   responses:
     '200':
       description: Logged
       content:
-        application/json:
+        '*/*':
           schema:
             $ref: '../../schemas/auth/tokenResponse.yaml'
     '400':

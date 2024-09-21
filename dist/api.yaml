@@ -15,20 +15,24 @@ paths:
         - Auth
       requestBody:
         content:
-          application/json:
+          '*/*':
             schema:
               $ref: '#/components/schemas/login'
       responses:
         '200':
           description: Logged
           content:
-            application/json:
+            '*/*':
               schema:
                 $ref: '#/components/schemas/tokenReponse'
         '400':
           description: Bad request
   /university/add-students:
     post:
+      security:
+        - authorization:
+            - Bearer
+        - origin: []
       description: Add new students
       operationId: AddStudents
       tags:

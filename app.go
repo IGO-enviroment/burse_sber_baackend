@@ -6,6 +6,7 @@ import (
 	"boilerplate/config"
 	"boilerplate/postgres"
 	"boilerplate/usecases/students"
+	"boilerplate/usecases/universities"
 	"context"
 	"errors"
 	mx "github.com/gorilla/handlers"
@@ -29,10 +30,12 @@ func Create(settings config.Settings, logger *log.Logger) *Application {
 
 	ctx, cancelFunc := context.WithCancel(context.Background())
 	studentService := students.NewStudentsService(pgDb, settings)
+	universitiesService := universities.NewUniversitiesService(pgDb, settings)
 	handler := handlers.New(
 		logger,
 		settings,
 		studentService,
+		universitiesService,
 	)
 	server := api.NewServer(ctx, settings, handler)
 	return &Application{
@@ -45,10 +48,7 @@ func Create(settings config.Settings, logger *log.Logger) *Application {
 
 func (a *Application) Run() {
 	go func() {
-		headersOk := mx.AllowedHeaders([]string{"Accept, Content-Type", "Content-Length", "Accept-Encoding", "Authorization", "X-CSRF-Token"})
-		originsOk := mx.AllowedOrigins([]string{"*"})
-		methodsOk := mx.AllowedMethods([]string{"GET", "HEAD", "POST", "PUT", "OPTIONS"})
-		if err := http.ListenAndServe(":8080", mx.CORS(headersOk, originsOk, methodsOk)(a.Server.Handler)); err != nil && !errors.Is(err, http.ErrServerClosed) {
+		if err := http.ListenAndServe(":8080", mx.CORS()(a.Server.Handler)); err != nil && !errors.Is(err, http.ErrServerClosed) {
 			a.Logger.Fatalf("listen http server err:  %v", err)
 		}
 	}()

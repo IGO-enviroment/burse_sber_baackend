@@ -4,22 +4,25 @@ import (
 	"boilerplate/api/authentication/generation"
 	"boilerplate/config"
 	"boilerplate/usecases/students"
+	"boilerplate/usecases/universities"
 	"log"
 	"net/http"
 	"strings"
 )
 
 type Handler struct {
-	logger         *log.Logger
-	config         config.Settings
-	studentService students.Service
+	logger              *log.Logger
+	config              config.Settings
+	studentService      students.Service
+	universitiesService universities.Service
 }
 
-func New(logger *log.Logger, config config.Settings, ss students.Service) *Handler {
+func New(logger *log.Logger, config config.Settings, ss students.Service, us universities.Service) *Handler {
 	return &Handler{
-		logger:         logger,
-		config:         config,
-		studentService: ss,
+		logger:              logger,
+		config:              config,
+		studentService:      ss,
+		universitiesService: us,
 	}
 }
 

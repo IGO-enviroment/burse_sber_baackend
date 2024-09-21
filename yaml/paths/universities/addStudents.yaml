@@ -1,4 +1,7 @@
 post:
+  security:
+    - authorization: [ 'Bearer' ]
+    - origin: [ ]
   description: Add new students
   operationId: AddStudents
   tags:

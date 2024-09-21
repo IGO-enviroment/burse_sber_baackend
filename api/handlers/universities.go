@@ -28,4 +28,22 @@ func (s *Handler) AddStudents(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	response, err := s.universitiesService.AddStudents(requestBody)
+	if err != nil {
+		s.logger.Println(fmt.Sprintf("%v", err.Error()))
+		w.WriteHeader(http.StatusBadRequest)
+		return
+	}
+
+	b, err := json.Marshal(response)
+	if err != nil {
+		s.logger.Println(fmt.Sprintf("%v", err.Error()))
+		w.WriteHeader(http.StatusBadRequest)
+		return
+	}
+
+	w.Header().Add(ContentTypeHeader, JsonContentType)
+	w.Write(b)
+
+	return
 }

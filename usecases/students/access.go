@@ -16,26 +16,22 @@ func (s Service) Authenticate(authRequest gen.Login) (gen.TokenReponse, error) {
 		return gen.TokenReponse{}, errors.New("empty password or email")
 	}
 
-	student, err := s.getStudentByEmail(authRequest.Email)
+	user, err := s.getStudentByEmail(authRequest.Email)
 	if err != nil {
 		return gen.TokenReponse{}, err
 	}
 
-	if !generation.CheckPasswordHash(authRequest.Password, student.PasswordDigest) {
+	if !generation.CheckPasswordHash(authRequest.Password, user.PasswordDigest) {
 		return gen.TokenReponse{}, errors.New("incorrect credentials")
 	}
 
-	if !student.IsStudent {
-		return gen.TokenReponse{}, errors.New("incorrect access")
-	}
-
 	claims := generation.AccessTokenClaims{
-		UserId:            student.Id,
-		Email:             student.Email,
-		IsStudent:         true,
-		IsAdmin:           false,
-		IsOrganization:    false,
-		IsUniversity:      false,
+		UserId:            user.Id,
+		Email:             user.Email,
+		IsStudent:         user.IsStudent,
+		IsAdmin:           user.IsAdmin,
+		IsOrganization:    user.IsCompany,
+		IsUniversity:      user.IsUniversity,
 		CreationTimestamp: time.Now().Unix(),
 		TTL:               s.settings.AccessTokenTTL,
 	}
