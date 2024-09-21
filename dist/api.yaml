@@ -9,6 +9,9 @@ servers:
 paths:
   /auth/login:
     post:
+      security:
+        - origin:
+            - '*'
       description: Login
       operationId: Login
       tags:
@@ -27,6 +30,30 @@ paths:
                 $ref: '#/components/schemas/tokenReponse'
         '400':
           description: Bad request
+  /university/add-students:
+    post:
+      description: Add new students
+      operationId: AddStudents
+      tags:
+        - University
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/addStudent'
+      responses:
+        '200':
+          description: Students added
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/creationResult'
+        '400':
+          description: Bad request
+        '401':
+          description: Not Unauthorized
 components:
   securitySchemes:
     authorization:
@@ -70,3 +97,44 @@ components:
         expiresIn:
           type: integer
           x-go-type: int64
+    student:
+      type: object
+      required:
+        - email
+        - firstName
+        - lastName
+        - middleName
+        - phoneNumber
+      properties:
+        email:
+          type: string
+        firstName:
+          type: string
+        lastName:
+          type: string
+        middleName:
+          type: string
+        phoneNumber:
+          type: string
+    addStudent:
+      type: object
+      required:
+        - universityId
+        - students
+      properties:
+        universityId:
+          type: integer
+        students:
+          type: array
+          items:
+            $ref: '#/components/schemas/student'
+    creationResult:
+      type: object
+      required:
+        - studentEmail
+        - isCreated
+      properties:
+        studentEmail:
+          type: string
+        isCreated:
+          type: boolean

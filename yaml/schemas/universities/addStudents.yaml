@@ -1,0 +1,9 @@
+type: object
+required: [ universityId, students ]
+properties:
+  universityId:
+    type: integer
+  students:
+    type: array
+    items:
+      $ref: "./student.yaml"

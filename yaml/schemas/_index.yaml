@@ -2,3 +2,11 @@ login:
   $ref: './auth/login.yaml'
 tokenReponse:
   $ref: './auth/tokenResponse.yaml'
+
+# Universities
+student:
+  $ref: './universities/student.yaml'
+addStudent:
+  $ref: './universities/addStudents.yaml'
+creationResult:
+  $ref: './universities/creationResult.yaml'

@@ -12,6 +12,10 @@ paths:
   /auth/login:
     $ref: "./paths/auth/login.yaml"
 
+  # Universities
+  /university/add-students:
+    $ref: "./paths/universities/addStudents.yaml"
+
 components:
   securitySchemes:
     authorization:

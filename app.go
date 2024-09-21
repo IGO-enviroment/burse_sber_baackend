@@ -34,7 +34,6 @@ func Create(settings config.Settings, logger *log.Logger) *Application {
 		studentService,
 	)
 	server := api.NewServer(ctx, settings, handler)
-
 	return &Application{
 		MainCtx:           ctx,
 		MainCtxCancelFunc: cancelFunc,

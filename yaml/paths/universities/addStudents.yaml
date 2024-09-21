@@ -1,0 +1,24 @@
+post:
+  description: Add new students
+  operationId: AddStudents
+  tags:
+    - University
+  requestBody:
+    content:
+      application/json:
+        schema:
+          $ref: '../../schemas/universities/addStudents.yaml'
+  responses:
+    '200':
+      description: Students added
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              $ref: '../../schemas/universities/creationResult.yaml'
+    '401':
+      description: Not Unauthorized
+    '400':
+      description: Bad request
+

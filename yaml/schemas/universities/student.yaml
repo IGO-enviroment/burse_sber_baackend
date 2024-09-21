@@ -1,0 +1,13 @@
+type: object
+required: [ email, firstName, lastName, middleName, phoneNumber ]
+properties:
+  email:
+    type: string
+  firstName:
+    type: string
+  lastName:
+    type: string
+  middleName:
+    type: string
+  phoneNumber:
+    type: string

@@ -1,4 +1,6 @@
 post:
+  security:
+    - origin: [ '*' ]
   description: Login
   operationId: Login
   tags:

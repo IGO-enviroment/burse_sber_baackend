@@ -1,7 +1,8 @@
 package config
 
 type Settings struct {
-	Port int `json:"port"`
+	Port int  `json:"port"`
+	Smtp Smtp `json:"smtp"`
 
 	// JWT
 	JwtSecret      string `json:"jwt_secret"`
@@ -9,4 +10,11 @@ type Settings struct {
 
 	// DB
 	PgConnString string `json:"pg_conn_string"`
+}
+
+type Smtp struct {
+	From     string `json:"from"`
+	Password string `json:"password"`
+	Host     string `json:"host"`
+	Port     int    `json:"port"`
 }
