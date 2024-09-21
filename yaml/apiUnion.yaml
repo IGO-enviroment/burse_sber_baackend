@@ -22,10 +22,6 @@ components:
       type: apiKey
       in: header
       name: Authorization
-    origin:
-      type: apiKey
-      in: header
-      name: Origin
   parameters:
     $ref: "./parameters/_index.yaml"
   schemas:

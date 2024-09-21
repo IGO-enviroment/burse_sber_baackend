@@ -61,10 +61,6 @@ components:
       type: apiKey
       in: header
       name: Authorization
-    origin:
-      type: apiKey
-      in: header
-      name: Origin
   parameters:
     id:
       name: id
